@@ -14,6 +14,7 @@
 # -tkinter
 
 from os import stat
+import string
 from typing import TYPE_CHECKING
 import numpy as np
 import pandas as pd
@@ -25,6 +26,8 @@ from skbio.stats.composition import multiplicative_replacement
 
 import matplotlib.pyplot as plt
 
+import itertools
+import operator
 import math
 import time
 import threading
@@ -93,16 +96,16 @@ class guiInterface(tk.Tk):
         # ###########################################
         tk.Label(self, text="Selecione o tipo de análise", font=('bold', 14)).place(x=7, y=100, anchor="w")
 
-        guiCalcGeom = tk.Checkbutton(self, text='Geométrica', font=('bold', 12), variable=self.calcGeom)
+        guiCalcGeom = tk.Checkbutton(self, text='Geométrica', font=('bold', 12),onvalue=1, offvalue=1, variable=self.calcGeom)
         guiCalcGeom.place(x=240, y=135, anchor="w")
 
-        guiCalcArit = tk.Checkbutton(self, text='Aritmética', font=('bold', 12), variable=self.calcArit)
+        guiCalcArit = tk.Checkbutton(self, text='Aritmética', font=('bold', 12),onvalue=1, offvalue=1, variable=self.calcArit)
         guiCalcArit.place(x=80, y=135, anchor="w")
 
-        guiIntervConf = tk.Checkbutton(self, text='Intervalos de Confiança', font=('bold', 12), variable=self.intervConf)
+        guiIntervConf = tk.Checkbutton(self, text='Intervalos de Confiança',onvalue=1, offvalue=1, font=('bold', 12), variable=self.intervConf)
         guiIntervConf.place(x=400, y=135, anchor="w")
 
-        guiTestePermt = tk.Checkbutton(self, text='Teste de Permutação', font=('bold', 12), variable=self.testePermt)
+        guiTestePermt = tk.Checkbutton(self, text='Teste de Permutação',onvalue=1, offvalue=1, font=('bold', 12), variable=self.testePermt)
         guiTestePermt.place(x=400, y=160, anchor="w")
 
         canvas.create_line(200, 120, 200, 170)
@@ -111,22 +114,22 @@ class guiInterface(tk.Tk):
         # ###########################################
         tk.Label(self, text="Parâmetros dos Testes", font=('bold', 14)).place(x=7, y=210, anchor="w")
 
-        guiAlfaBoot = tk.Spinbox(self, from_=0.01, to=1, increment=0.01, width=7, textvariable=self.alfaBoot)
+        guiAlfaBoot = tk.Spinbox(self, from_=0.05, to=1, increment=0.05, width=7, textvariable=self.alfaBoot)
         guiAlfaBoot.place(x=270, y=245, anchor="w") 
         tk.Label(self, text="Alfa Intervalos de Confiança:", font=('bold', 12)).place(x=60, y=245, anchor="w")
 
-        guiReamostragens = tk.Spinbox(self, from_=1000, to=100000, increment=250, width=7, textvariable=self.reamostragens)
+        guiReamostragens = tk.Spinbox(self, from_=5000, to=100000, increment=250, width=7, textvariable=self.reamostragens)
         guiReamostragens.place(x=270, y=275, anchor="w") 
         tk.Label(self, text="Reamostragens:", font=('bold', 12)).place(x=60, y=275, anchor="w")
 
         canvas.create_line(350, 235, 350, 290)
 
 
-        guiAlfaPerm = tk.Spinbox(self, from_=0.01, to=1, increment=0.01, width=7, textvariable=self.alfaPerm)
+        guiAlfaPerm = tk.Spinbox(self, from_=0.05, to=1, increment=0.01, width=7, textvariable=self.alfaPerm)
         guiAlfaPerm.place(x= 520, y=245, anchor="w") 
         tk.Label(self, text="Alfa Permutação:", font=('bold', 12)).place(x=380, y=245, anchor="w")
 
-        guiPermutacoes = tk.Spinbox(self, from_=1000, to=100000, increment=250, width=7, textvariable=self.permutacoes)
+        guiPermutacoes = tk.Spinbox(self, from_=5000, to=100000, increment=250, width=7, textvariable=self.permutacoes)
         guiPermutacoes.place(x=520, y=275, anchor="w") 
         tk.Label(self, text="Permutações", font=('bold', 12)).place(x=380, y=275, anchor="w")
 
@@ -350,7 +353,7 @@ class calculo():
             print(textostatus)
             self.status.set(textostatus)
 
-            self.dados = pd.read_excel(arquivo, header=[0, 1, 2])
+            self.dados = pd.read_excel(arquivo, header=[0, 1, 2], dtype='int16')
             
 
             # Este trecho do código inverte os eixos do dataframe original
@@ -358,6 +361,8 @@ class calculo():
             self.dados = self.dados.swaplevel(axis=1)
             self.dados.sort_index(axis=1, level=0, inplace=True)
             self.dadosCopia = self.dados
+            self.dados.to_excel("Resultados/Intertido.xlsx")
+            
 
 
             # Se algum elemento for Zero, a média geométrica também será zero.
@@ -367,9 +372,8 @@ class calculo():
             self.dados = pd.DataFrame(self.dados, columns=self.indexBootstap)*1000
             self.dados = self.dados.astype(np.float32)
 
-            # Como alternativa, podemos escolher outro método para fazer a substituição, como trocar os zeros por um número pequeno (embora eu não recomende)
-            # self.dados = self.dados.replace(0,0.1)
-
+            self.dados.to_excel("Resultados/NoZeroes.xlsx")
+      
 
             if testePrefNow == 1 or testeNowNow == 1: #para testar dois anos diferentes
                 arquivoOld = self.fileOld
@@ -379,7 +383,7 @@ class calculo():
 
                 self.dadosOld = multiplicative_replacement(self.dadosOld)
                 self.dadosOld = pd.DataFrame(self.dadosOld, columns=self.indexBootstap)*1000
-                self.dadosOld = self.dadosOld.astype(np.float32)                
+                self.dadosOld = self.dadosOld.astype(np.uint8)                
 
 
 
@@ -429,7 +433,7 @@ class calculo():
                 # Cada amostra (DataFrame do pandas) gerada é armazenada em um lista(dadosReamostragem)
                 # Logo, dadosReamostragem[n] retorna o DataFrame que contém os dados do OCAI n, gerados a partir do bootstrap do OCAI original
                 dadosReamostragem = calculo.reamostragem(self, self.numeroReam)
-
+                
                 # Aqui geramos calculamos o cfp dos dados reamostrados e geramos um Dataframe com eles
                 cfpReamIndiv = calculo.cfpRPCalc(self,dadosReamostragem, self.numeroReam)
 
@@ -484,11 +488,17 @@ class calculo():
                 textostatus = "Realizando o Teste de permutação..."
                 print(textostatus)
                 self.status.set(textostatus)
+
                 # TESTE DE PERMUTAÇÃO - Verifica se Now e Preferred são estatisticamente iguais
                 # H0: São iguais H1: Não são iguais
                 ################################################
                 # Faz a permutação dos dados reamostrados
+                #print("\npermutação")
+                self.dados.to_excel("Resultados/DadosAntesPerm.xlsx")
+
                 permutados = calculo.permutac(self, self.dados, self.numPemut)
+                
+
 
 
                 cfpPermt = calculo.calcMedPermt(self, permutados)
@@ -1109,7 +1119,7 @@ class calculo():
     # OBJETIVO DA FUNÇÃO: Gerar n amostras Permutadas
     ##############################################################################################################################################################
     def permutac(self, amostra, repeticoes):
-    
+        
         cultSortear =[]
 
         sorteioNow = []
@@ -1131,66 +1141,84 @@ class calculo():
 
             cultSortear.append(temp)
 
-        cultSortear = pd.DataFrame(cultSortear, index=self.cultura).transpose() #cria um dataframe com o que iremos sortear
-        
+        cultSortear = pd.DataFrame(cultSortear, index=self.cultura).transpose() #cria um dataframe com o que iremos sortear. Contém todas as respostas de cada cultura
+            
 
-        tamanho = np.array(cultSortear[self.cultura[0]]).size
+        tamanho = np.array(cultSortear[self.cultura[0]]).size #verifica o tamanho do dataframe do sorteio (usado para divdir)
 
         intSortear = list(range(0,tamanho)) #indice que será usado no sorteio
     
-
+###################################################################################################################### It is fast
+        print("\nSorteio dos Indices")
+        time1 = time.time()
         for i in range(len(self.cultura)): # Faz o sorteio dos índices
                     
             
             for j in range(repeticoes):
+                
                 nowTemp = np.random.choice(intSortear, size=int(tamanho/2), replace=False).tolist() #Como não tem como sortearmos arrays, sorteamos sem reposição os indexes destes arrays
         
                 prefTemp = list(set(intSortear) - set(nowTemp)) #eliminamos os numeros já sorteados
         
                 prefTemp = np.random.choice(prefTemp, size=int(tamanho/2), replace=False).tolist() #para aleatorizar prefTemp
-
+                
                 #Cada repetição gera a coluna da cultura i que será usada na construção de um novo dataframe
                 nowTemp2.append(nowTemp)          
                 prefTemp2.append(prefTemp)
 
-
             # Unificamos as colunas geradas
-            nowTemp2 = np.array(nowTemp2).flatten()    
-            prefTemp2 = np.array(prefTemp2).flatten()
-
             # e depois geramos uma lista com elas
-            nowTemp2 = nowTemp2.tolist()
-            prefTemp2 = prefTemp2.tolist()
 
-            sorteioNow.append(nowTemp2)
             
-            sorteioPref.append(prefTemp2)
+            nowTemp2 = list(itertools.chain.from_iterable(nowTemp2))
+            prefTemp2 = list(itertools.chain.from_iterable(prefTemp2))
+
+
+            sorteioNow.append(nowTemp2) # todos os sorteios gerados ficam salvos em sorteioNow e sorteioPref
+            #print(len(sorteioNow))
+            #print(len(sorteioNow[0]))
+            sorteioPref.append(prefTemp2) #Cada sorteio corresponde a uma cultura. Todos as permutações daquela cultura são geradas
         
+
         
             # Temos que limpar as listas nowTemp2 prefTemp2 antes de sortear a próxima cultura
             nowTemp2 = [] 
             prefTemp2 = []
-
-        
+            
+   
+ 
         nowTemp2 = [] 
         prefTemp2 = []
+        #print("Sorteio")
+        #print(cultSortear)
+        #print("print")
+        #print(self.cultura[0])
+        #print("print2")
+        #print(max(sorteioNow[0]))
+        #print(sorteioNow[0])
+
 
         for i in range(len(self.cultura)):
 
             # geramos um dataframes com todos os itens sorteados na cultura i        
             nowTemp = cultSortear[self.cultura[i]][sorteioNow[i]].tolist()
             prefTemp = cultSortear[self.cultura[i]][sorteioPref[i]].tolist()
-
+            #print(nowTemp)
+            #print("\nIndexesSorteio")
             nowTemp2.append(nowTemp)
+            #print(nowTemp2)
             prefTemp2.append(prefTemp)
 
 
 
         nowTemp2 = pd.DataFrame(nowTemp2)
+        #print("\Maluco")
+        #print(nowTemp2)
         prefTemp2 = pd.DataFrame(prefTemp2)
 
         df = pd.concat([nowTemp2, prefTemp2], ignore_index=True)
         df = df.set_index(self.index).transpose()
+        #print(df)
 
         nowAndPref =[]
 
@@ -1338,6 +1366,7 @@ class calculo():
         save = ("Gráficos/" + nome)
         #plt.show() #Desativado por padrão, apenas mostra a imagem
         plt.savefig(save, dpi=600, transparent=transp)
+        plt.close()
 
 
 if __name__ == "__main__":

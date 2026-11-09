@@ -1,0 +1,121 @@
+{
+  "sampleSize": 505,
+  "globalCfp": [
+    {
+      "culture": "Clan (A)",
+      "nowMin": 36.57,
+      "nowMean": 35.37,
+      "nowMax": 37.25,
+      "prefMin": 20.25,
+      "prefMean": 19.96,
+      "prefMax": 20.68
+    },
+    {
+      "culture": "Adhocracy (B)",
+      "nowMin": 28.39,
+      "nowMean": 27.46,
+      "nowMax": 28.86,
+      "prefMin": 35.89,
+      "prefMean": 35.29,
+      "prefMax": 36.41
+    },
+    {
+      "culture": "Market (C)",
+      "nowMin": 19.37,
+      "nowMean": 18.9,
+      "nowMax": 20.07,
+      "prefMin": 28.02,
+      "prefMean": 27.54,
+      "prefMax": 28.41
+    },
+    {
+      "culture": "Hierarchy (D)",
+      "nowMin": 14.48,
+      "nowMean": 14.18,
+      "nowMax": 15.09,
+      "prefMin": 14.95,
+      "prefMean": 14.83,
+      "prefMax": 15.44
+    }
+  ],
+  "globalHypothesisTest": {
+    "observedDistance": 0.7291,
+    "pValue": 0.0002,
+    "alpha": 0.05,
+    "decision": "DIFFERENT (Reject H0)"
+  },
+  "dimensionalCdp": [
+    {
+      "dimension": "1",
+      "dimensionName": "1. Dominant Characteristics",
+      "observedDistance": 0.8458,
+      "pValue": 0.0002,
+      "decision": "Different"
+    },
+    {
+      "dimension": "2",
+      "dimensionName": "2. Organizational Leadership",
+      "observedDistance": 0.8097,
+      "pValue": 0.0002,
+      "decision": "Different"
+    },
+    {
+      "dimension": "3",
+      "dimensionName": "3. Management of Employees",
+      "observedDistance": 0.7069,
+      "pValue": 0.0002,
+      "decision": "Different"
+    },
+    {
+      "dimension": "4",
+      "dimensionName": "4. Organization Glue",
+      "observedDistance": 0.72,
+      "pValue": 0.0002,
+      "decision": "Different"
+    },
+    {
+      "dimension": "5",
+      "dimensionName": "5. Strategic Emphases",
+      "observedDistance": 0.7328,
+      "pValue": 0.0002,
+      "decision": "Different"
+    },
+    {
+      "dimension": "6",
+      "dimensionName": "6. Criteria of Success",
+      "observedDistance": 0.7064,
+      "pValue": 0.0002,
+      "decision": "Different"
+    }
+  ],
+  "benchmarking": [
+    {
+      "group": "Overall",
+      "respondents": 505,
+      "dominantNow": "Clan (35.4%)",
+      "dominantPref": "Adhocracy (35.3%)",
+      "aitchisonGap": 0.7291,
+      "pValue": 0.0002,
+      "decision": "Different"
+    },
+    {
+      "group": "Engineering > Development",
+      "respondents": 444,
+      "dominantNow": "Clan (35.6%)",
+      "dominantPref": "Adhocracy (35.3%)",
+      "aitchisonGap": 0.7364,
+      "pValue": 0.0002,
+      "decision": "Different"
+    },
+    {
+      "group": "Engineering > Operations",
+      "respondents": 61,
+      "dominantNow": "Clan (33.7%)",
+      "dominantPref": "Adhocracy (35.4%)",
+      "aitchisonGap": 0.6868,
+      "pValue": 0.0002,
+      "decision": "Different"
+    }
+  ],
+  "skippedGroups": []
+}

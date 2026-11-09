@@ -1,0 +1,4 @@
+group;respondents;dominantNow;dominantPref;aitchisonGap;pValue;decision
+Overall;505;Clan (35.4%);Adhocracy (35.3%);0.7291;0.0002;Different
+Engineering > Development;444;Clan (35.6%);Adhocracy (35.3%);0.7364;0.0002;Different
+Engineering > Operations;61;Clan (33.7%);Adhocracy (35.4%);0.6868;0.0002;Different

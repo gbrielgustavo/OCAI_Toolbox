@@ -1,0 +1,13 @@
+group;culture;nowMin;nowMean;nowMax;prefMin;prefMean;prefMax
+Overall;Clan (A);36.57;35.37;37.25;20.25;19.96;20.68
+Overall;Adhocracy (B);28.39;27.46;28.86;35.89;35.29;36.41
+Overall;Market (C);19.37;18.9;20.07;28.02;27.54;28.41
+Overall;Hierarchy (D);14.48;14.18;15.09;14.95;14.83;15.44
+Engineering > Development;Clan (A);36.8;35.6;37.56;20.26;19.98;20.69
+Engineering > Development;Adhocracy (B);28.42;27.46;28.95;35.84;35.27;36.42
+Engineering > Development;Market (C);19.25;18.78;19.96;27.99;27.51;28.37
+Engineering > Development;Hierarchy (D);14.26;13.97;14.9;14.98;14.88;15.5
+Engineering > Operations;Clan (A);34.05;33.74;35.69;19.68;19.77;20.86
+Engineering > Operations;Adhocracy (B);27.75;27.48;29.0;35.46;35.43;37.16
+Engineering > Operations;Market (C);19.73;19.79;21.19;27.95;27.77;29.08
+Engineering > Operations;Hierarchy (D);15.71;15.79;16.93;14.22;14.51;15.57

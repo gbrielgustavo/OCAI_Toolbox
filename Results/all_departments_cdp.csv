@@ -1,0 +1,19 @@
+group;dimension;dimensionName;observedDistance;pValue;decision
+Overall;1;1. Dominant Characteristics;0.8458;0.0002;Different
+Overall;2;2. Organizational Leadership;0.8097;0.0002;Different
+Overall;3;3. Management of Employees;0.7069;0.0002;Different
+Overall;4;4. Organization Glue;0.72;0.0002;Different
+Overall;5;5. Strategic Emphases;0.7328;0.0002;Different
+Overall;6;6. Criteria of Success;0.7064;0.0002;Different
+Engineering > Development;1;1. Dominant Characteristics;0.9086;0.0002;Different
+Engineering > Development;2;2. Organizational Leadership;0.8458;0.0002;Different
+Engineering > Development;3;3. Management of Employees;0.7195;0.0002;Different
+Engineering > Development;4;4. Organization Glue;0.7138;0.0002;Different
+Engineering > Development;5;5. Strategic Emphases;0.7326;0.0002;Different
+Engineering > Development;6;6. Criteria of Success;0.7081;0.0002;Different
+Engineering > Operations;1;1. Dominant Characteristics;0.8155;0.0002;Different
+Engineering > Operations;2;2. Organizational Leadership;0.8255;0.0002;Different
+Engineering > Operations;3;3. Management of Employees;0.6263;0.0002;Different
+Engineering > Operations;4;4. Organization Glue;0.7984;0.0002;Different
+Engineering > Operations;5;5. Strategic Emphases;0.8102;0.0002;Different
+Engineering > Operations;6;6. Criteria of Success;0.7205;0.0002;Different
